@@ -1,10 +1,29 @@
-import telebot
-from telebot_main import bot
+import requests
+import json
+from config import currency_list
 
 
 class APIException(Exception):
-    def attention(self):
-        @bot.message_handler(content_types='text')
-        def message_reply(message):
-            if message.text == "Кнопка":
-                bot.send_message(message.chat.id, "https://habr.com/ru/users/lubaznatel/")
+    def __str__(self):
+        print('kosyak')
+
+
+class Converter:
+    @staticmethod
+    def get_prise(base, quote, amount):
+        try:
+            base_key = currency_list[base.lower()]
+        except:
+            raise APIException(f'Валюта не найдена')
+
+        try:
+            quote_key = currency_list[quote.lower()]
+        except:
+            raise APIException(f'Валюта не найдена')
+
+        r = requests.get(f'https://min-api.cryptocompare.com/data/price?fsym={base_key}&tsyms={quote_key}')
+        resp = json.loads(r.content)
+        prise = resp[quote_key] * float(amount)
+        prise = round(prise, 5)
+        message = f'Стоимость {amount} {base} в {quote}: {prise}'
+        return message
