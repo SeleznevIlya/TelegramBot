@@ -1,14 +1,16 @@
 import telebot
 from config import *
-from extensions import APIException, Converter
+from extensions import *
 
 
 bot = telebot.TeleBot(token)
+
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
     bot.send_message(message.chat.id, 'Приветствую в конвертере валют'
                                       'перед началом использования обратитесь к инструкции /help')
+
 
 @bot.message_handler(commands=['help'])
 def start_message(message):
@@ -22,7 +24,6 @@ def start_message(message):
 
 @bot.message_handler(commands=['value'])
 def value_message(message):
-    #mess_value = f'Доступные валюты: \nДоллар, \nЕвро, \nРубль'
     value_text = 'Доступные валюты:'
     for key in currency_list.keys():
         value_text = '\n'.join((value_text, key))
