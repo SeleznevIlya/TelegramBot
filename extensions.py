@@ -4,8 +4,7 @@ from config import currency_list
 
 
 class APIException(Exception):
-    def __str__(self):
-        print('kosyak')
+    pass
 
 
 class Converter:
@@ -21,9 +20,14 @@ class Converter:
         except:
             raise APIException(f'Валюта не найдена')
 
+        try:
+            amount_key = float(amount)
+        except:
+            raise APIException(f'Неверный ввод количества конвертируемой валюты')
+
         r = requests.get(f'https://min-api.cryptocompare.com/data/price?fsym={base_key}&tsyms={quote_key}')
         resp = json.loads(r.content)
-        prise = resp[quote_key] * float(amount)
+        prise = resp[quote_key] * amount_key
         prise = round(prise, 5)
         message = f'Стоимость {amount} {base} в {quote}: {prise}'
         return message

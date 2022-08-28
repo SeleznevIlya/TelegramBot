@@ -40,7 +40,7 @@ def converter(message):
         result = Converter.get_prise(*values)
 
     except APIException as e:
-        bot.reply_to(message, f'Ошибка')
+        bot.reply_to(message, f'Ошибка: \n{e}')
 
     else:
         bot.reply_to(message, result)
