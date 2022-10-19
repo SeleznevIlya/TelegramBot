@@ -2,7 +2,6 @@ import telebot
 from config import *
 from extensions import *
 
-
 bot = telebot.TeleBot(token)
 
 
@@ -15,10 +14,10 @@ def start_message(message):
 @bot.message_handler(commands=['help'])
 def start_message(message):
     message_start_help = 'Для того чтобы узнать текущий курс валюты введите следующее сообщение:' \
-                      '<имя валюты, цену которой он хочет узнать>, ' \
-                      '<имя валюты, в которой надо узнать цену первой валюты>, ' \
-                      '<количество первой валюты>.' \
-                      'Чтобы узнать список доступных валют, введите /value'
+                         '<имя валюты, цену которой он хочет узнать>, ' \
+                         '<имя валюты, в которой надо узнать цену первой валюты>, ' \
+                         '<количество первой валюты>.' \
+                         'Чтобы узнать список доступных валют, введите /value'
     bot.send_message(message.chat.id, message_start_help)
 
 
@@ -46,4 +45,5 @@ def converter(message):
         bot.reply_to(message, result)
 
 
-bot.infinity_polling()
+if __name__ == '__main__':
+    bot.infinity_polling()
